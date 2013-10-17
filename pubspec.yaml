@@ -5,5 +5,5 @@ description: Integrates roole css processor inside polymer.dart
 homepage: https://github.com/SalomonBrys/dart-roole-element
 documentation: https://github.com/SalomonBrys/dart-roole-element
 dependencies:
-  js: any
-  polymer: any
+  js: '>=0.0.25'
+  polymer: '>=0.8.1'
