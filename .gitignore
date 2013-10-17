@@ -1,0 +1,9 @@
+
+packages/
+*~
+.DS_Store
+.settings
+
+.project
+
+pubspec.lock
