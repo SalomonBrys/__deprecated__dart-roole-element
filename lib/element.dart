@@ -39,7 +39,7 @@ abstract class RooleElementMixin implements CustomElement {
     var comp = new Completer();
     if (encaps)
       txt = this.tagName.toLowerCase() + ", [is=" + this.tagName.toLowerCase() + "] {\n" + txt + "\n}\n";
-    js.context.roole.compile(txt, null, new js.Callback.once((error, [css]) {
+    js.context.roole.compile(txt, js.map({'base': './'}), new js.Callback.once((error, [css]) {
       if (error != null) {
         window.console.log(error.toString());
       }
