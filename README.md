@@ -74,8 +74,8 @@ If you are using the dart editor along with Dartium in debug mode, the style wil
 
 In your `my_project.html` file, in the `head` section, add
 
-	<link rel="stylesheet" href="package:roole_element/roole_element.css">
-	<script src="package:roole_element/roole.js"></script>
+	<link rel="stylesheet" href="package/roole_element/roole_element.css">
+	<script src="package/roole_element/roole.js"></script>
 
 The first is a simple CSS that prevents [FOUC](http://wikipedia.org/wiki/FOUC).  
 The second is the roole javascript processor file.
