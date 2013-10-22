@@ -80,6 +80,11 @@ In your `my_project.html` file, in the `head` section, add
 The first is a simple CSS that prevents [FOUC](http://wikipedia.org/wiki/FOUC).  
 The second is the roole javascript processor file.
 
+Please note that roole_element uses roole.js library via [js-interop](https://www.dartlang.org/articles/js-dart-interop/).  
+Therefore, if you haven't already done this in your `my_project.html` file, you need to add this script in the `head` section to enable dart to interact with javascript :
+
+	<script src="packages/browser/interop.js"></script>
+
 #### Roole inside polymer-element
 
 First, you need to make your element roole aware.
