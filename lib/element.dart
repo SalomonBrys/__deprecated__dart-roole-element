@@ -14,10 +14,10 @@ class _CachedStyle {
   _CachedStyle(this.style);
 }
 
-abstract class RooleElementMixin implements PolymerElement {
+abstract class Roole implements Polymer {
 
   String _shimShadowDomStyling(String txt) {
-    if (djs.context == null) return txt;
+    if (js.context == null) return txt;
 
     var platform = djs.context['Platform'];
     if (platform == null) return txt;
@@ -92,11 +92,11 @@ abstract class RooleElementMixin implements PolymerElement {
   }
 
   void compileRoole() {
-    this.host.classes.add("roole-wait");
+    this.classes.add("roole-wait");
 
     List<Future> futures = new List();
 
-    this.shadowRoot.queryAll('roole').forEach((Element e) {
+    this.shadowRoot.querySelectorAll('roole').forEach((Element e) {
       e.remove();
       Future fut;
       if (e.attributes.containsKey("src")) {
@@ -109,17 +109,18 @@ abstract class RooleElementMixin implements PolymerElement {
     });
 
     Future.wait(futures).then((e) {
-      this.host.classes.remove("roole-wait");
+//      this.classes.remove("roole-wait");
     });
   }
 
 }
 
-class RooleElement extends PolymerElement with RooleElementMixin {
+class RooleElement extends PolymerElement with Roole {
 
-  void created() {
-    super.created();
+  RooleElement.created() : super.created() {}
+
+  void shadowRootReady(ShadowRoot root, Element template) {
+    super.shadowRootReady(root, template);
     compileRoole();
   }
-
 }

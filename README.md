@@ -12,8 +12,8 @@ The most unique feature of Roole is that it has vendor prefixing built-in, so th
 
 Roole_element is a dart library that enables :
 
- * Automatic compilation of *.roo roole files into one big CSS.
- * Integration of roole inside polymer.dart elements
+ * Automatic compilation by the editor of *.roo roole files into one big CSS.
+ * **Integration of roole css processing inside polymer.dart elements**
 
 It is made for polymer.dart projects and directly depends on it.
 
@@ -51,7 +51,7 @@ Modify your build.dart file:
 	  p.CommandLineOptions options = p.parseOptions(new Options().arguments);
 	  
 	  r.build('my_project', options).then((dynamic e) {
-	    p.build(entryPoints: ['web/chabine_ui.html'], options: options);
+	    p.build(entryPoints: ['web/my_project.html'], options: options);
 	  });
 	}
 
@@ -74,8 +74,8 @@ If you are using the dart editor along with Dartium in debug mode, the style wil
 
 In your `my_project.html` file, in the `head` section, add
 
-	<link rel="stylesheet" href="package/roole_element/roole_element.css">
-	<script src="package/roole_element/roole.js"></script>
+	<link rel="stylesheet" href="packages/roole_element/roole_element.css">
+	<script src="packages/roole_element/roole.js"></script>
 
 The first is a simple CSS that prevents [FOUC](http://wikipedia.org/wiki/FOUC).  
 The second is the roole javascript processor file.
@@ -89,38 +89,63 @@ Therefore, if you haven't already done this in your `my_project.html` file, you 
 
 First, you need to make your element roole aware.
 
-Two solutions :
+In the examples below, we use the *click-counter* polymer element example. This means that `@observable int count = 0;` and `void increment() { count++; }` are not part of the roole example (they are part of the *click-counter* example)
 
-1. Your element inherits from `RooleElement` instead of `PolymerElement`, example :
+There are different ways of activating roole in your element:
+
+1. If your element inherits from `PolymerElement`, make it inherit from `RooleElement` instead.
 
 		@CustomTag('click-counter')
-		class ClickCounter extends RooleElement with ObservableMixin {
+		class ClickCounter extends RooleElement {
 		  @observable int count = 0;
 		
+		  ClickCounter.created : super.created();
+		
 		  bool get applyAuthorStyles => true;
-		  
-		  void increment() {
-		    count++;
-		  }
+		
+		  void increment() { count++; }
 		}
 
-2. Sometimes you need to be free to inherit what you want, in this case, you can use the `RooleElementMixin`. You then need to override `created()` like in this example :
+2. If your element inherits from a custom subclass of `PolymerElement`, use the `Roole` mixin. You then need to override `shadowRootReady(ShadowRoot, Element)`.
 
 		@CustomTag('click-counter')
-		class ClickCounter extends PolymerElement with ObservableMixin, RooleElementMixin {
+		class ClickCounter extends MyCustomPolymerElement with Roole {
 		  @observable int count = 0;
+		
+		  ClickCounter.created : super.created();
 		
 		  bool get applyAuthorStyles => true;
 		  
-		  void created() {
-		    super.created();
+		  void shadowRootReady(ShadowRoot root, Element template) {
+		    super.shadowRootReady(root, template);
 		    compileRoole();
 		  }
-		  
-		  void increment() {
-		    count++;
-		  }
+		
+		  void increment() { count++; }
 		}
+
+3. If you are extending an element in your markup, for instance: `<polymer-element name="click-counter" extends="div">`. Then your Dart class must match, and must include a call to `polymerCreated()` in the created constructor. In this case, you should also use the `Roole` mixin and override `shadowRootReady(ShadowRoot, Element)`.
+
+		@CustomTag('click-counter')
+		class ClickCounter extends DivElement with Polymer, Observable, Roole {
+		  @observable int count = 0;
+		
+		  ClickCounter.created : super.created() { polymerCreated(); }
+		
+		  bool get applyAuthorStyles => true;
+		
+		  void shadowRootReady(ShadowRoot root, Element template) {
+		    super.shadowRootReady(root, template);
+		    compileRoole();
+		  }
+		
+		  void increment() { count++; }
+		}
+
+Note that, in those example, we activate the `applyAuthorStyles` web component feature. This means that enclosing css or roole style will apply to this element.  
+This is not always what you want (sometimes, you need to completely isolate your element style - this is the default behaviour). In those cases, remove the `applyAuthorStyles` line. When you do, your element will be exposed to [FOUC](http://wikipedia.org/wiki/FOUC). To prevent FOUC, you should put this in your element's roole style:
+
+	@import 'packages/roole_element/roole_element.css'
 
 #### Embeded roole
 
