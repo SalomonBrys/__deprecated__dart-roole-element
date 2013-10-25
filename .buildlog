@@ -1,0 +1,52 @@
+---
+build.dart --machine --changed=build.sh --removed=example/build.sh
+
+build.dart finished [1363 ms]
+
+---
+build.dart --machine --removed=example/pubspec.lock --removed=example/pubspec.yaml --removed=example/web/clickc...
+
+build.dart finished [2227 ms]
+
+---
+build.dart --machine --changed=build.sh
+
+build.dart finished [2691 ms]
+
+---
+build.dart --machine --changed=example/pubspec.lock --changed=example/pubspec.yaml --changed=example/web/clickc...
+Uncaught Error: FileException: Cannot open file, path = web/roole_element_example.roo.css (OS Error: No such file or directory, errno = 2)
+Stack Trace:
+#0      _File.open.<anonymous closure> (file_impl.dart:324)
+#1      _Future._propagateToListeners.<anonymous closure> (dart:async/future_impl.dart:449)
+#3      _rootRun (dart:async/zone.dart:531)
+#4      _ZoneDelegate.run (dart:async/zone.dart:344)
+#5      _CustomizedZone.run (dart:async/zone.dart:489)
+#6      _Future._propagateToListeners (dart:async/future_impl.dart:441)
+#7      _Future._complete (dart:async/future_impl.dart:298)
+#8      _Future._asyncComplete.<anonymous closure> (dart:async/future_impl.dart:354)
+#9      _asyncRunCallback (dart:async/event_loop.dart:18)
+#10     _createTimer.<anonymous closure> (dart:async-patch/timer_patch.dart:11)
+#11     _Timer._createTimerHandler._handleTimeout (timer_impl.dart:151)
+#12     _Timer._createTimerHandler.<anonymous closure> (timer_impl.dart:168)
+#13     _ReceivePortImpl._handleMessage (dart:isolate-patch/isolate_patch.dart:113)
+
+
+Unhandled exception:
+FileException: Cannot open file, path = web/roole_element_example.roo.css (OS Error: No such file or directory, errno = 2)
+#0      _rootHandleUncaughtError.<anonymous closure> (dart:async/zone.dart:526)
+#1      _asyncRunCallback (dart:async/event_loop.dart:18)
+#2      _asyncRunCallback (dart:async/event_loop.dart:21)
+#3      _createTimer.<anonymous closure> (dart:async-patch/timer_patch.dart:11)
+#4      _Timer._createTimerHandler._handleTimeout (timer_impl.dart:151)
+#5      _Timer._createTimerHandler._handleTimeout (timer_impl.dart:159)
+#6      _Timer._createTimerHandler._handleTimeout (timer_impl.dart:159)
+#7      _Timer._createTimerHandler.<anonymous closure> (timer_impl.dart:168)
+#8      _ReceivePortImpl._handleMessage (dart:isolate-patch/isolate_patch.dart:113)
+build.dart finished [424 ms]
+
+---
+build.dart --machine --removed=build.sh
+
+build.dart finished [945 ms]
+
