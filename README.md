@@ -4,10 +4,8 @@
 
 #### Roole
 
-[Roole](http://roole.org) is a language that compiles to CSS.
-
-It drew many inspirations from other CSS preprocessing languages like Sass, LESS and Stylus.
-
+[Roole](http://roole.org) is a language that compiles to CSS.  
+It drew many inspirations from other CSS preprocessing languages like Sass, LESS and Stylus.  
 The most unique feature of Roole is that it has vendor prefixing built-in, so the language stays dead simple yet being able to prefix some extremely complex rules transparently. Since Roole is also a superset of CSS, you can use it directly as a CSS prefixer.
 
 #### Roole_element
@@ -22,17 +20,23 @@ It is made for polymer.dart projects and directly depends on it.
 
 ## Compiling *.roo files
 
+#### What it does
+
+***For now, this part only works on Linux and Mac OS X. A future update will make this work on Windows.***
+
+It will take all the .roo files in your `web/` directory and compile them into one CSS file.  
+That way, you can separate your styling semantics into different files and load only one CSS file at runtime.
+
+This is **not required**. It is for performance improvement only.  
+Roole.js can compile at runtime the roole style linked or embeded within your HTML page.
+
 #### Install
 
 *For this to work, you must have the roole command line installed with node's npm.*
 
+First, install `node.js` and `npm`. Instructions for [Linux](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager) and [Mac OS X](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager#osx).
+
 	npm install roole -g
-
-#### What it does
-
-It will take all the .roo files in your `web/` directory and compile them into one CSS file.
-
-That way, you can separate your styling semantics into different files and load only one CSS file at runtime.
 
 #### build.dart
 
@@ -70,12 +74,16 @@ If you are using the dart editor along with Dartium in debug mode, the style wil
 
 In your `my_project.html` file, in the `head` section, add
 
-	<link rel="stylesheet" href="package:roole_element/roole_element.css">
-	<script src="package:roole_element/roole.js"></script>
+	<link rel="stylesheet" href="package/roole_element/roole_element.css">
+	<script src="package/roole_element/roole.js"></script>
 
-The first is a simple CSS that prevents [FOUC](http://wikipedia.org/wiki/FOUC)
-
+The first is a simple CSS that prevents [FOUC](http://wikipedia.org/wiki/FOUC).  
 The second is the roole javascript processor file.
+
+Please note that roole_element uses roole.js library via [js-interop](https://www.dartlang.org/articles/js-dart-interop/).  
+Therefore, if you haven't already done this in your `my_project.html` file, you need to add this script in the `head` section to enable dart to interact with javascript :
+
+	<script src="packages/browser/interop.js"></script>
 
 #### Roole inside polymer-element
 
@@ -83,36 +91,36 @@ First, you need to make your element roole aware.
 
 Two solutions :
 
-1: Your element inherits from `RooleElement` instead of `PolymerElement`, example :
+1. Your element inherits from `RooleElement` instead of `PolymerElement`, example :
 
-	@CustomTag('click-counter')
-	class ClickCounter extends RooleElement with ObservableMixin {
-	  @observable int count = 0;
-	
-	  bool get applyAuthorStyles => true;
-	  
-	  void increment() {
-	    count++;
-	  }
-	}
+		@CustomTag('click-counter')
+		class ClickCounter extends RooleElement with ObservableMixin {
+		  @observable int count = 0;
+		
+		  bool get applyAuthorStyles => true;
+		  
+		  void increment() {
+		    count++;
+		  }
+		}
 
-2: Sometimes you need to be free to inherit what you want, in this case, you can use the `RooleElementMixin`. You then need to override `created()` like in this example :
+2. Sometimes you need to be free to inherit what you want, in this case, you can use the `RooleElementMixin`. You then need to override `created()` like in this example :
 
-	@CustomTag('click-counter')
-	class ClickCounter extends PolymerElement with ObservableMixin, RooleElementMixin {
-	  @observable int count = 0;
-	
-	  bool get applyAuthorStyles => true;
-	  
-	  void created() {
-	    super.created();
-	    compileRoole();
-	  }
-	  
-	  void increment() {
-	    count++;
-	  }
-	}
+		@CustomTag('click-counter')
+		class ClickCounter extends PolymerElement with ObservableMixin, RooleElementMixin {
+		  @observable int count = 0;
+		
+		  bool get applyAuthorStyles => true;
+		  
+		  void created() {
+		    super.created();
+		    compileRoole();
+		  }
+		  
+		  void increment() {
+		    count++;
+		  }
+		}
 
 #### Embeded roole
 
@@ -126,7 +134,8 @@ You need to use the `<roole>` tag instead of `<style type="text/roole">` because
 
 #### Roole file reference
 
-You can reference an external roole file. This file's extension **must not be `.roo`** because if it is, it will be compiled in the big `.roo.css` file. We suggest to use the extensions `.rin` for "Roole INside".
+You can reference an external roole file.
+This file's extension **must not be `.roo`** because if it is, it will be compiled in the big `.roo.css` file. We suggest to use the extensions `.rin` for "Roole INside".
 
 Inside the HTML of your element, just after the `<template>` opening tag, put:
 
