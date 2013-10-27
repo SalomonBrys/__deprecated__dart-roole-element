@@ -1,9 +1,9 @@
 name: roole_element
-version: 0.2.0
+version: 0.3.0
 author: Salomon BRYS <salomon.brys@gmail.com>
 description: Integrates roole css processor inside polymer.dart
 homepage: https://github.com/SalomonBrys/dart-roole-element
 documentation: https://github.com/SalomonBrys/dart-roole-element
 dependencies:
   js: '>=0.0.25'
-  polymer: '>=0.8.5'
+  styleproc_element: '>=0.1.0'
