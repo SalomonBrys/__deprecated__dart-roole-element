@@ -12,7 +12,7 @@ class Roole {
 
   Future<String> compileStyleText(String txt) {
     Completer<String> comp = new Completer<String>();
-    js.context.roole.compile(txt, js.map({'base': './'}), new js.Callback.once((error, [css]) {
+    js.context.roole.compile(txt, js.map({'base': './'}), (error, [css]) {
       if (error != null) {
         comp.completeError(error);
         return ;
@@ -22,7 +22,7 @@ class Roole {
         return ;
       }
       comp.complete(css);
-    }));
+    });
     return comp.future;
   }
 
