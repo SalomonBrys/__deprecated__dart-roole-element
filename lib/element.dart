@@ -10,9 +10,9 @@ class Roole {
 
   String get styleElementName => "roole";
 
-  Future<String> compileStyleText(String txt) {
+  Future<String> compileStyleText(String txt, String classScope) {
     Completer<String> comp = new Completer<String>();
-    js.context.roole.compile(txt, js.map({'base': './'}), (error, [css]) {
+    js.context.roole.compile(".$classScope { $txt }", js.map({'base': './'}), (error, [css]) {
       if (error != null) {
         comp.completeError(error);
         return ;
