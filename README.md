@@ -1,3 +1,8 @@
+DEPRECATED
+==========
+
+This package is no longer maintained and is **not compatible with polymer'slast versions**.
+
 # Roole integration in polymer.dart
 
 ## Introduction
